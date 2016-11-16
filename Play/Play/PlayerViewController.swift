@@ -169,6 +169,11 @@ class PlayerViewController: UIViewController {
             player.removeAllItems()
             player.insert(song, after: nil)
             currentIndex = currentIndex + 1
+            let nextTrack = tracks[currentIndex]
+            asyncLoadTrackImage(nextTrack)
+            titleLabel.text = nextTrack.title
+            artistLabel.text = nextTrack.artist
+            
             if (paused) {
                 player.pause()
                 playPauseButton.isSelected = false
@@ -196,7 +201,7 @@ class PlayerViewController: UIViewController {
         if (CMTimeGetSeconds(player.currentTime()) > 3) {
             player.seek(to: CMTimeMake(0, 1000))
         }
-        if (currentIndex - 1 > -1) {
+        else if (currentIndex - 1 > -1) {
             let path = Bundle.main.path(forResource: "Info", ofType: "plist")
             let clientID = NSDictionary(contentsOfFile: path!)?.value(forKey: "client_id") as! String
             let track = tracks[currentIndex - 1]
@@ -205,6 +210,10 @@ class PlayerViewController: UIViewController {
             player.removeAllItems()
             player.insert(song, after: nil)
             currentIndex = currentIndex - 1
+            let nextTrack = tracks[currentIndex]
+            asyncLoadTrackImage(nextTrack)
+            titleLabel.text = nextTrack.title
+            artistLabel.text = nextTrack.artist
             if (paused) {
                 player.pause()
                 playPauseButton.isSelected = false
